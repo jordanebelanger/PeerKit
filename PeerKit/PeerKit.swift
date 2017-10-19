@@ -28,7 +28,7 @@ public var eventBlocks = [String: ObjectBlock]()
 
 // MARK: PeerKit Globals
 
-#if os(iOS)
+#if os(iOS) || os(tvOS)
 import UIKit
 public let myName = UIDevice.current.name
 #else
