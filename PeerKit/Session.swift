@@ -14,13 +14,13 @@ public protocol SessionDelegate {
     func connected(myPeerID: MCPeerID, toPeer peer: MCPeerID)
     func disconnected(myPeerID: MCPeerID, fromPeer peer: MCPeerID)
     func receivedData(myPeerID: MCPeerID, data: Data, fromPeer peer: MCPeerID)
-    func finishReceivingResource(myPeerID: MCPeerID, resourceName: String, fromPeer peer: MCPeerID, atURL localURL: URL)
+    func finishReceivingResource(myPeerID: MCPeerID, resourceName: String, fromPeer peer: MCPeerID, atURL localURL: URL?)
 }
 
 public class Session: NSObject, MCSessionDelegate {
-    public private(set) var myPeerID: MCPeerID
+    @objc public private(set) var myPeerID: MCPeerID
     var delegate: SessionDelegate?
-    public private(set) var mcSession: MCSession
+    @objc public private(set) var mcSession: MCSession
 
     public init(displayName: String, delegate: SessionDelegate? = nil) {
         myPeerID = MCPeerID(displayName: displayName)
@@ -30,7 +30,7 @@ public class Session: NSObject, MCSessionDelegate {
         mcSession.delegate = self
     }
 
-    public func disconnect() {
+    @objc public func disconnect() {
         self.delegate = nil
         mcSession.delegate = nil
         mcSession.disconnect()
@@ -60,8 +60,8 @@ public class Session: NSObject, MCSessionDelegate {
     public func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
         // unused
     }
-
-    public func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL, withError error: Error?) {
+    
+    public func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
         if (error == nil) {
             delegate?.finishReceivingResource(myPeerID: myPeerID, resourceName: resourceName, fromPeer: peerID, atURL: localURL)
         }

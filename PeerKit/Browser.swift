@@ -13,22 +13,22 @@ let timeStarted = NSDate()
 
 class Browser: NSObject, MCNearbyServiceBrowserDelegate {
 
-    let mcSession: MCSession
+    @objc let mcSession: MCSession
 
-    init(mcSession: MCSession) {
+    @objc init(mcSession: MCSession) {
         self.mcSession = mcSession
         super.init()
     }
 
-    var mcBrowser: MCNearbyServiceBrowser?
+    @objc var mcBrowser: MCNearbyServiceBrowser?
 
-    func startBrowsing(serviceType: String) {
+    @objc func startBrowsing(serviceType: String) {
         mcBrowser = MCNearbyServiceBrowser(peer: mcSession.myPeerID, serviceType: serviceType)
         mcBrowser?.delegate = self
         mcBrowser?.startBrowsingForPeers()
     }
 
-    func stopBrowsing() {
+    @objc func stopBrowsing() {
         mcBrowser?.delegate = nil
         mcBrowser?.stopBrowsingForPeers()
     }

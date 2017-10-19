@@ -11,22 +11,22 @@ import MultipeerConnectivity
 
 class Advertiser: NSObject, MCNearbyServiceAdvertiserDelegate {
 
-    let mcSession: MCSession
+    @objc let mcSession: MCSession
 
-    init(mcSession: MCSession) {
+    @objc init(mcSession: MCSession) {
         self.mcSession = mcSession
         super.init()
     }
 
     private var advertiser: MCNearbyServiceAdvertiser?
 
-    func startAdvertising(serviceType: String, discoveryInfo: [String: String]? = nil) {
+    @objc func startAdvertising(serviceType: String, discoveryInfo: [String: String]? = nil) {
         advertiser = MCNearbyServiceAdvertiser(peer: mcSession.myPeerID, discoveryInfo: discoveryInfo, serviceType: serviceType)
         advertiser?.delegate = self
         advertiser?.startAdvertisingPeer()
     }
 
-    func stopAdvertising() {
+    @objc func stopAdvertising() {
         advertiser?.delegate = nil
         advertiser?.stopAdvertisingPeer()
     }
